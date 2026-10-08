@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from fastapi import APIRouter, Depends, HTTPException, Path
 from starlette import status
-from database import SessionLocal
-from models import Todos
+from ..database import SessionLocal
+from ..models import Todos
 from .auth import get_current_user
 
 router = APIRouter()
@@ -39,7 +39,7 @@ async def read_todo(user:user_dependency,db: db_dependency, todo_id: int = Path(
         raise HTTPException(status_code=401,detail="Authentication Failed")
     todo_model = db.query(Todos).filter(Todos.id == todo_id).filter(Todos.owner_id==user.get("id")).first()
     if todo_model is None:
-        raise HTTPException(status_code=404,detail=f"Todo with id {todo_id} not found")
+        raise HTTPException(status_code=404,detail=f"Todo not found.")
     return todo_model
 
 
@@ -60,7 +60,7 @@ async def update_todo(user:user_dependency,db: db_dependency
         raise HTTPException(status_code=401,detail="Authentication Failed")
     todo_model = db.query(Todos).filter(Todos.id == todo_id).filter(Todos.owner_id==user.get("id")).first()
     if todo_model is None:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Todo not found")
 
     todo_model.title = todo_request.title
     todo_model.description = todo_request.description
@@ -71,13 +71,13 @@ async def update_todo(user:user_dependency,db: db_dependency
     db.commit()
 
 
-@router.delete("/todos/{todo_id}")
+@router.delete("/todos/{todo_id}",status_code=status.HTTP_204_NO_CONTENT)
 async def delete_todo(user:user_dependency,db: db_dependency, todo_id: int):
     if user is None:
         raise HTTPException(status_code=401,detail="Authentication Failed")
     todo_model = db.query(Todos).filter(Todos.id == todo_id).filter(Todos.owner_id==user.get("id")).first()
     if todo_model is None:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Todo not found")
     db.query(Todos).filter(Todos.id == todo_id).filter(Todos.owner_id == user.get("id")).delete()
     db.commit()
 

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine #This function is used to create a new SQLAlchemy engine, which is responsible for managing the database connection and executing SQL statements.
 from sqlalchemy.orm import sessionmaker #This function is used to create a session factory, which is responsible for creating new Session objects that are used to interact with the database.
-from sqlalchemy.ext.declarative import declarative_base #This function is used to create a base class for the declarative models, which are used to define the structure of the database tables and their relationships.
+from sqlalchemy.orm import declarative_base #This function is used to create a base class for the declarative models, which are used to define the structure of the database tables and their relationships.
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///todosapp.db" #Used when we are using Sqlite database
 #Create a location to store the database file. The three slashes indicate a relative path, while four slashes indicate an absolute path.

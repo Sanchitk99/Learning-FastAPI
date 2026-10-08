@@ -3,10 +3,10 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from fastapi import APIRouter, Depends, HTTPException, Path
 from starlette import status
-from database import SessionLocal
+from ..database import SessionLocal
 from passlib.context import CryptContext
 
-from models import Todos, Users
+from ..models import Todos, Users
 from .auth import get_current_user
 
 router = APIRouter(
