@@ -16,9 +16,9 @@ class Users(Base):
 class Todos(Base):
     __tablename__ = "todos"  # Specifies the name of the table in the database.
 
-    id = Column(Integer, primary_key=True, index=True)  # Defines the 'id' column as an integer primary key with an index.
-    title = Column(String, index=True)  # Defines the 'title' column as a string with an index.
-    description = Column(String, index=True)  # Defines the 'description' column as a string with an index.
-    priority = Column(Integer, index=True)  # Defines the 'priority' column as an integer with an index.
-    complete = Column(Boolean, default=False)  # Defines the 'completed' column as a boolean with a default value of False.
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    description = Column(String, index=True)
+    priority = Column(Integer, index=True)
+    complete = Column(Boolean, default=False)
     owner_id=Column(Integer, ForeignKey("users.id"))
