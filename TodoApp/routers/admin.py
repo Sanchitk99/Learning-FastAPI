@@ -33,6 +33,6 @@ async def delete_todo(user:user_dependency,db:db_dependency,todo_id:int = Path(g
         raise HTTPException(status_code=401,detail='Authentication failed')
     todo_model=db.query(Todos).filter(Todos.id==todo_id).first()
     if todo_model is None:
-        raise HTTPException(status_code=404,detail="todo not found")
+        raise HTTPException(status_code=404,detail="Todo not found")
     db.query(Todos).filter(Todos.id==todo_id).delete()
     db.commit()

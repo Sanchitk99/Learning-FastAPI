@@ -7,7 +7,10 @@ from ..database import SessionLocal
 from ..models import Todos
 from .auth import get_current_user
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/todos",
+    tags=["Todos"]
+)
 
 def get_db():  # Define a function to get a database session.
     db = SessionLocal()  # Create a new database session.
@@ -27,7 +30,7 @@ class TodoRequest(BaseModel):
     complete: bool
 
 
-@router.get("/")
+@router.get("/todos")
 async def read_all(user:user_dependency,db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401,detail="Authentication Failed")
